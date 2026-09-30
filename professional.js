@@ -18,6 +18,8 @@ function runBacktest(){if(!current)return;const status=$('btStatus');try{if(curr
 const originalSaveSettings=$('saveSettings').onclick,originalSaveHolding=$('saveHolding').onclick;
 $('saveSettings').onclick=()=>{originalSaveSettings();backtestReport=null;renderResearch()};$('saveHolding').onclick=()=>{originalSaveHolding();backtestReport=null;renderResearch()};
 renderResearch();
+const originalPersist=persist;
+persist=function(){originalPersist();backtestReport=null;renderResearch();};
 function connection(){const offline=!navigator.onLine;$('connectionLabel').textContent=offline?'离线 · 查询使用缓存':'净值研究终端';}
 window.addEventListener('online',connection);window.addEventListener('offline',connection);connection();
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('installApp').hidden=false});$('installApp').onclick=async()=>{if(!installPrompt)return;await installPrompt.prompt();installPrompt=null;$('installApp').hidden=true};
